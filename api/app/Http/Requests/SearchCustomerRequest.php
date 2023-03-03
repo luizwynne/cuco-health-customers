@@ -22,16 +22,14 @@ class SearchCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'max:255|required_without:cpf',
-            'cpf' => 'required_without:name',
+            'params' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required_without:cpf' => 'CPF ou Nome devem estar presentes',
-            'cpf.required_without:name' => 'CPF ou Nome devem estar presentes',
+            'params.required' => 'Por favor, preenha uma chave de busca'
         ];
     }
 }

@@ -10,7 +10,7 @@
            {{apiResponse}}
         </v-alert>
 
-        <h1>Editar Aluno</h1>
+        <h1>Editar cliente</h1>
 
         <v-form
             ref="form"
@@ -33,7 +33,6 @@
 
             <v-text-field
                 v-model="customer.phone_number"
-                :rules="phoneNumberRules"
                 label="Telefone"
                 required
             ></v-text-field>
@@ -102,8 +101,13 @@ export default {
                 birthdate: this.customer.birthdate,
                 phone_number: this.customer.phone_number
             }).then(response => {
+                
+                if(response.status === 200){
+                    this.apiResponse = 'Cliente editado com sucesso'
+                }else{
+                    this.apiResponse = 'Algum problema aconteceu. Tente novamente mais tarde'
+                }
 
-                this.apiResponse = response.data.message
                 this.showCreatedMessage = true
 
                 setTimeout(() => {
@@ -112,6 +116,16 @@ export default {
                 }, 5000)
 
                 this.reset()
+
+            }).catch(() => {
+
+                this.apiResponse = 'Algum problema aconteceu. Tente novamente mais tarde'
+                this.showErrorMessage = true 
+
+                setTimeout(() => {
+                    this.showErrorMessage = false
+                    this.apiResponse = ''
+                }, 5000)
 
             })
         },

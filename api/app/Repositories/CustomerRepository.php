@@ -15,11 +15,11 @@ class CustomerRepository{
         return Customer::all();
     }
 
-    public function searchCustomers(SearchCustomerRequest $request){
+    public function searchCustomers($request){
 
         $customers = Customer::where(function($q) use($request) {
-            $q->where('name', 'like', '%'.$request->name.'%')
-              ->where('cpf', 'like', '%'.$request->cpf.'%');
+            $q->where('name', 'like', '%'.$request->params.'%')
+              ->orWhere('cpf', 'like', '%'.$request->params.'%');
         })->orderBy('nome', 'ASC')->get();
        
         return $customers;

@@ -48,7 +48,6 @@
 
             <v-text-field
                 v-model="phone_number"
-                :rules="phoneNumberRules"
                 label="Telefone"
                 required
             ></v-text-field>
@@ -112,7 +111,7 @@ import axios from 'axios';
         
       save(){
         this.validate()
-        axios.post(ENV_URL+'/api/students', {
+        axios.post(ENV_URL+'/api/customers', {
             name: this.name,
             email: this.email,
             cpf: this.cpf,
@@ -120,8 +119,13 @@ import axios from 'axios';
             phone_number: this.phone_number
         }).then(response => {
             
-            this.apiResponse = response.data.message
-            this.showCreatedMessage = true
+              if(response.status === 200){
+                this.apiResponse = 'Cliente cadastrado com sucesso'
+              }else{
+                this.apiResponse = 'Algum problema aconteceu. Tente novamente mais tarde'
+              }
+
+              this.showCreatedMessage = true
 
             setTimeout(() => {
                 this.showCreatedMessage = false
@@ -130,8 +134,8 @@ import axios from 'axios';
 
             this.reset()
 
-        }).catch(e => {
-            this.apiResponse = e.response.data.errors
+        }).catch(() => {
+            this.apiResponse = 'Algum problema aconteceu. Tente novamente mais tarde'
             this.showErrorMessage = true 
 
             setTimeout(() => {

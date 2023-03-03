@@ -12,12 +12,12 @@
 
         <h1>Clientes</h1>
         <div class="d-flex">
-            <v-text-field v-model="filterValue" class="pt-5 mr-2" placeholder="Digite sua busca" outlined clearable></v-text-field>
+            <v-text-field v-model="filterValue" class="pt-5 mr-2" placeholder="Digite sua busca por nome ou CPF" outlined clearable></v-text-field>
         </div>
         
         <v-data-table
             :headers="headers"
-            :items="searchCustomers()"
+            :items="this.customers"
             sort-by="name"
             class="elevation-1"
         >
@@ -25,7 +25,7 @@
                 <v-toolbar flat>
                     <v-dialog v-model="dialogDelete" max-width="600px">
                         <v-card>
-                            <v-card-title class="text-h5 v-card-title">Tem certeza que deseja cancelar esse item?</v-card-title>
+                            <v-card-title class="text-h5 v-card-title">Tem certeza que deseja deletar esse cliente?</v-card-title>
                             <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="closeDelete">Cancelar</v-btn>
@@ -73,6 +73,7 @@ export default {
             ],
             customers: [],
             customers_backup: [],
+            customers_filtered: [],
             filterValue : '',
             itemIndex: -1,
             itemItemId: null
@@ -85,6 +86,9 @@ export default {
       },
       dialogDelete (val) {
         val || this.closeDelete()
+      },
+      filterValue (val) {
+        this.getCustomersByParams(val)
       }
     },
 
@@ -98,27 +102,19 @@ export default {
             axios.get(ENV_URL+'/api').then(response => {
                 this.customers = response.data
                 this.customers_backup = this.customers
+                console.log(this.customers)
             }).catch(e => {
                 console.log(e)
             })
         },
 
-        searchCustomers(){
-            
-            let result = this.customers
-                
-            if (this.filterValue === ''){
-                return result
-            }
-                
-            const filterValue = this.filterValue.toLowerCase()
-                
-            let new_customers = this.customers.filter(customer => {
-                return customer.name.toLowerCase().includes(filterValue) ||
-                       customer.cpf.toLowerCase().includes(filterValue)
+        getCustomersByParams(val){
+
+            axios.get(ENV_URL+'/api/customers?params='+val).then(response => {
+                this.customers = response.data
+            }) .catch(e => {
+                console.log(e)
             })
-                
-            return new_customers   
             
         },
 
@@ -138,14 +134,23 @@ export default {
 
                 this.customers.splice(this.itemIndex, 1)
                 this.closeDelete()
-                this.apiResponse = response.data.message
+                this.apiResponse = 'Cliente deletado com sucesso'
                 this.showCreatedMessage = true
+                console.log(response)
 
                 setTimeout(() => {
                     this.showCreatedMessage = false
                     this.apiResponse = ''
                 }, 5000)
-            })
+            }).catch(() => {
+                this.apiResponse = 'Algum problema aconteceu. Tente novamente mais tarde'
+                this.showErrorMessage = true 
+
+                setTimeout(() => {
+                    this.showErrorMessage = false
+                    this.apiResponse = ''
+                }, 5000)
+        })
             
         },
 

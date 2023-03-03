@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
 
@@ -29,7 +31,7 @@ class CustomerController extends Controller
         return response()->json(new CustomersResource($customers));
     }
 
-    public function searchCustomers(SearchCustomerRequest $request){
+    public function searchCustomers(Request $request){
         $customers = $this->customerRepository->searchCustomers($request);
         return response()->json(new CustomersResource($customers));
     }
