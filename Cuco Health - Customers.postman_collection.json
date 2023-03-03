@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "266bcf5d-3182-4c87-a055-6807135dfa5b",
+		"name": "Cuco Health - Customers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20588826"
+	},
+	"item": [
+		{
+			"name": "Listar todos os clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api"
+					]
+				},
+				"description": "Essa API recuperar todos os registros no banco de dados"
+			},
+			"response": []
+		},
+		{
+			"name": "Procurar Clientes (Nome ou CPF)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/customers?params=",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"customers"
+					],
+					"query": [
+						{
+							"key": "params",
+							"value": ""
+						}
+					]
+				},
+				"description": "Essa API faz uma busca no banco de dados, baseando-se nas propriedades 'nome' e 'cpf'. Caso as duas propriedades estejam faltando, a API retornará um erro de validacao."
+			},
+			"response": []
+		},
+		{
+			"name": "Criar clientes",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Carlos da Silva\",\n    \"cpf\": \"326455122-08\",\n    \"birthdate\": \"1988/02/05\",\n    \"phone_number\": \"1195487-1122\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/customers",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"customers"
+					]
+				},
+				"description": "Essa API faz a criacao de um novo cliente. Ha uma valiadacao para certificar que todos os dados estejam presentes."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Clientes",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Maria da Silva\",\n    \"cpf\": \"326455122-08\",\n    \"birthdate\": \"1988/02/05\",\n    \"phone_number\": \"1195487-1122\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/customers/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"customers",
+						"2"
+					]
+				},
+				"description": "Essa API faz a edicao de um cliente ja existe no banco e recebe na url o ID do cliente a ser editado. Ha uma valiadacao para certificar que todos os dados estejam presentes e que o cliente exista no banco de dados."
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Cliente",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Maria da Silva\",\n    \"cpf\": \"326455122-08\",\n    \"birthdate\": \"1988/02/05\",\n    \"phone_number\": \"1195487-1122\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/customers/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"customers",
+						"1"
+					]
+				},
+				"description": "Essa API faz a delecao de um cliente. Ela espera na URL o ID do cliente a ser editado. Ha uma validacao para certificar que o cliente exista no banco de dados."
+			},
+			"response": []
+		}
+	]
+}
