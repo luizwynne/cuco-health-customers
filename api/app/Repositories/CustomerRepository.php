@@ -15,15 +15,19 @@ class CustomerRepository{
         return Customer::all();
     }
 
-    public function searchCustomers(SearchCustomerRequest $request){
+    public function searchCustomers($request){
 
         $customers = Customer::where(function($q) use($request) {
-            $q->where('name', 'like', '%'.$request->name.'%')
-              ->where('cpf', 'like', '%'.$request->cpf.'%');
+            $q->where('name', 'like', '%'.$request->params.'%')
+              ->orWhere('cpf', 'like', '%'.$request->params.'%');
         })->orderBy('nome', 'ASC')->get();
        
         return $customers;
 
+    }
+
+    public function getCustomer($customer_id){
+        return Customer::findOrFail($customer_id);
     }
 
     public function saveCustomer($customerObj, $customer_id = null){
@@ -37,7 +41,11 @@ class CustomerRepository{
         try{
 
             $customer->name = $customerObj->name;
-            $customer->cpf = $customerObj->cpf;
+
+            if(empty($customer_id)){
+                $customer->cpf = $customerObj->cpf;
+            }
+            
             $customer->birthdate = $customerObj->birthdate;
             $customer->phone_number = $customerObj->phone_number;
             $customer->save();

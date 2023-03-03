@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchCustomerRequest extends FormRequest
+class CreateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,10 @@ class SearchCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'max:255|required_without:cpf',
-            'cpf' => 'required_without:name',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'name.required_without:cpf' => 'CPF ou Nome devem estar presentes',
-            'cpf.required_without:name' => 'CPF ou Nome devem estar presentes',
+            'name' => 'required|max:255',
+            'cpf' => 'required|max:12',
+            'birthdate' => 'required',
+            'phone_number' => 'max:12'
         ];
     }
 }

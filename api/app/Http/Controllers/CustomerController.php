@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
 
 use App\Http\Requests\{
-    SaveCustomerRequest,
-    SearchCustomerRequest
+    CreateCustomerRequest,
+    SearchCustomerRequest,
+    UpdateCustomerRequest
 };
 
 use App\Http\Resources\{
@@ -28,17 +31,22 @@ class CustomerController extends Controller
         return response()->json(new CustomersResource($customers));
     }
 
-    public function searchCustomers(SearchCustomerRequest $request){
+    public function searchCustomers(Request $request){
         $customers = $this->customerRepository->searchCustomers($request);
         return response()->json(new CustomersResource($customers));
     }
 
-    public function createCustomer(SaveCustomerRequest $request){
+    public function getCustomer(int $customer_id){
+        $customer = $this->customerRepository->getCustomer($customer_id);
+        return response()->json(new CustomerResource($customer));
+    }
+
+    public function createCustomer(CreateCustomerRequest $request){
         $customer = $this->customerRepository->saveCustomer($request);
         return response()->json(new CustomerResource($customer));
     }
 
-    public function updateCustomer(SaveCustomerRequest $request, $customer_id){
+    public function updateCustomer(UpdateCustomerRequest $request, $customer_id){
         $customer = $this->customerRepository->saveCustomer($request, $customer_id);
         return response()->json(new CustomerResource($customer));
     }

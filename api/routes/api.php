@@ -15,8 +15,9 @@ use App\Http\Controllers\CustomerController;
 |
 */
 
-Route::get('/', [CustomerController::class, 'getCustomers']);
+Route::get('/', [CustomerController::class, 'getCustomers'])->middleware('cors');
 Route::get('/customers', [CustomerController::class, 'searchCustomers']);
+Route::get('/customers/{customer_id}', [CustomerController::class, 'getCustomer']);
 Route::post('/customers', [CustomerController::class, 'createCustomer']);
 Route::put('/customers/{customer_id}', [CustomerController::class, 'updateCustomer']);
 Route::delete('/customers/{customer_id}', [CustomerController::class, 'deleteCustomer']);

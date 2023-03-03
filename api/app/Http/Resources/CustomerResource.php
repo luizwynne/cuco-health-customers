@@ -19,7 +19,7 @@ class CustomerResource extends JsonResource
         }
         
         $customer = $this->resource;
-
+        
         return [
             'id' => $customer['id'],
             'name' => $customer['name'],
